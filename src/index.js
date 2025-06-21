@@ -11,7 +11,16 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// Root route for GET /
+// ✅ NEW: Protect your API with x-api-key
+const API_KEY = process.env.PRIVATE_API_KEY;
+app.use('/chat', (req, res, next) => {
+  const clientKey = req.headers['x-api-key'];
+  if (clientKey !== API_KEY) {
+    return res.status(403).json({ error: 'Access denied' });
+  }
+  next();
+});
+
 app.get('/', (req, res) => {
   res.send('🤖 Koffi Chatbot is live and ready!');
 });
