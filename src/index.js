@@ -11,6 +11,11 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+// Root route for GET /
+app.get('/', (req, res) => {
+  res.send('🤖 Koffi Chatbot is live and ready!');
+});
+
 app.post('/chat', async (req, res) => {
   try {
     const { message } = req.body;
